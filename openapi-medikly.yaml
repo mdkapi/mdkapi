@@ -1,886 +1,930 @@
 swagger: '2.0'
 info:
-  version: 'v1'
+  version: '1.0.0'
   title: Medikly API
+  description: >
+    Welcome to Medikly’s Enrich API! You can use this API to access all our API endpoints, such as the Disease State API to get a list of providers who treat a specific condition or the Provider Specialty API to get a list of providers by specialty.
+
+
+    Enrich REST API authentication is done via standard HTTP authentication. All requests to the API are secured by HTTPS. The API returns consistent, JSON-formatted responses that use standard HTTP status codes (eg. to return success or error statuses, see the Errors section for more on error codes).
+
+
+    As you navigate through the available endpoints, you will find sample code to the right in various popular languages. In most cases, you should be able to simply copy and paste this code and change the {Your API Key} string to match your actual API key to try out the endpoint. If you encounter any difficulties or have any questions, please do not hesitate to contact us.
   contact:
+    email: api@medikly.com
     name: Medikly API Support
-    email: apiteam@medikly.com
     url: https://www.medikly.com
-  description: "The Medikly Enrich API allows you to enrich healthcare provider information
-    by submitting an identifier you already have, such as the providers NPI, email
-    address, phone number, or social username.  These identifiers are then be used
-    to identify and return any additional information we may have, such as the demographics,
-    prescriptions, referrals, procedures or interests of that provider.  \n\nEnrich
-    REST API authentication is done via standard HTTP authentication. All requests
-    to the API are secured by HTTPS. The API returns consistent, JSON-formatted responses
-    that use standard HTTP status codes (eg. to return success or error statuses,
-    see the Errors section for more on error codes).\n\nThe Enrich API is split in
-    sub-APIs, which you can use for specific use cases, (ie Disease States, Specialties).
-    \  For instance, if you need to understand provider behaviors for a particular
-    condition/disease or by their specialty, you may use the Enrich API. The list
-    of all available sub-APIs can be accessed in the left navigation bar.\n\nAs you
-    navigate through the available endpoints, you will find sample code to the right
-    in various popular languages. In most cases, you should be able to simply copy
-    and paste this code and change the {Your API Key} string to match your actual
-    API key to try out the endpoint. If you encounter any difficulties or have any
-    questions, please do not hesitate to contact us.\n"
-  termsOfService: http://medikly.appspot.com/terms
-  license:
-    url: https://www.apache.org/licenses/LICENSE-2.0
-    name: Apache 2.0
-  x-logo:
-      url: https://storage.googleapis.com/medikly.appspot.com/resources/logo_black1-1.png
-      backgroundColor": #FFFFFF
-      altText: Medikly
 host: medikly.appspot.com
 basePath: /
 securityDefinitions:
   api_token:
     type: apiKey
-    description: |+
+    description: >-
       All requests to the Enrich API must be authenticated. API keys are distributed by Medikly. Please contact us on chat if you want to get one. If you don't authenticate a request, you will get a 401 Unauthorized response.
+
 
       When accessing the Enrich API, include your API Key within the "Authorization" header of your POST, using a prefix of "Bearer". An example of this is shown to the right.
 
 
 
       <span style="color: #000000;">Your API keys are essentially like passwords to access the Enrich API, and should be kept secret. Do not embed them in client-side code or post them in publicly accessible areas such as support forums or GitHub. It is a common and easy mistake to accidentally copy and paste code snippets, including your API key, when seeking help - be sure to remove your API key and any other sensitive information before posting.</span>
-
     name: api_token
     in: query
 schemes:
-  - https
+- https
 consumes:
-  - application/json
+- application/json
 produces:
-  - application/json
-x-google-management:
-  metrics:
-    - name: read-requests
-      displayName: Read requests
-      valueType: INT64
-      metricKind: DELTA
-  quota:
-    limits:
-      - name: read-requests-limit
-        metric: read-requests
-        unit: 1/min/{project}
-        values:
-          STANDARD: 50
+- application/json
 paths:
   /diabetes:
     get:
-      description: "The Diabetes Mellitus API provides granular information on specific
-        providers who manage Type 2 Diabetes Mellitus.  The API enriches your data
-        on a provider with professional, demographic and behaviors information thats
-        defined by the providers NPI (national provider identifier).   \n\n"
-      summary: Get Diabetes Mellitus
+      description: Access granular information on specific providers who manage Type 2 Diabetes Mellitus.  The API enriches your data on a provider with a variety of attributes, such as professional, demographic and behavioral information.
+      summary: get_diabetes
       tags:
-        - Disease State API
-      operationId: get_diabetes
+      - Disease State API
+      operationId: DiabetesGet
       deprecated: false
       produces:
-        - application/json
-      security:
-        - api_token: []
+      - application/json
       parameters:
-        - name: page
-          in: query
-          type: integer
-          format: int32
-          description: "Number of page"
+      - name: page
+        in: query
+        required: false
+        type: integer
+        format: int32
+        description: Number of page
       responses:
-        '200':
-          description: A match has been found and a provider summary object will be
-            returned. If any Disease States have been enabled and data are available,
-            those Disease States will be returned in the details property of the provider
-            summary object.
-          headers: {}
+        200:
+          description: The request was successful.
           schema:
-            "$ref": "#/definitions/disease_state"
-        '429':
+            $ref: '#/definitions/DiseaseState'
+          examples:
+            application/json:
+              data:
+              - npi: 1003038167
+                replacement_npi: ''
+                update_date: 28/10/2008
+                deactation_date: ''
+                ein: ''
+                org_name_lbn: ''
+                last_name: GOLDEN
+                first_name: KIMBERLY
+                middle_name: KAY
+                credentials: M.D.
+                prefix: DR.
+                suffix: ''
+                gender: F
+                entity_type: 1
+                mail_street1: 917 REAVES ST
+                mail_street2: ''
+                mail_city: JACKSON
+                mail_state: MS
+                mail_zipcode: 71665
+                mail_country: US
+                practice_street1: 505 SYCAMORE STREET
+                practice_street2: ''
+                practice_city: RISON
+                practice_state: AR
+                practice_zipcode: 71665
+                practice_country: US
+                in_group: ''
+                in_pecos: Y
+                is_org_subpart: ''
+                is_sole_proprietor: N
+                parent_org_tin: ''
+                auth_official_firstname: ''
+                auth_official_lastname: ''
+                auth_official_credential: ''
+                auth_official_middlename: ''
+                auth_official_prefix: ''
+                auth_official_suffix: ''
+                auth_official_title: ''
+                pac_id: 3577613439
+                primary_specialty: FAMILY MEDICINE
+                years_of_exp: 18
+                grad_year: 2001
+                means_of_cert: ''
+                millions_hearts_init: ''
+                rx_count: 6362
+                rx_quartile: 1
+                30dayrxfill: 9752
+                rx_cost: 325747.10
+                rxdaysupply: 272309
+                patient_count: 289
+                brand_rx_count: 878
+                brand_rx_cost: 238647.84
+                brand_rx_cost_quartile: 1
+                generic_rx_count: 5372
+                generic_rx_cost: 83046.94
+                generic_rx_cost_quartile: 1
+                other_rx_count: 112
+                other_rx_cost: 4052.32
+                mapd_rx_count: 2375
+                mapd_rx_cost: 158322.86
+                pdp_rx_count: 3987
+                pdp_rx_cost: 167424.24
+                opioid_rx_cost: 503.53
+                opioid_rx_cost_quartile: 1
+                opioid_rx_count: 120
+                opioid_day_supply: 1235
+                opioid_patient_count: 44
+                opioid_prescriber_rate: 1.89
+                la_opioid_rx_count: 0
+                la_opioid_rx_cost: 0.00
+                la_opioid_day_supply: 0
+                la_opioid_patient_count: 0
+                la_opioid_prescriber_rate: 0.00
+                antibiotic_rx_count: 270
+                antibiotic_rx_cost: 2969.94
+                antibiotic_patient_count: 141
+                avg_age_of_patient: 67
+                patient_female_count: 172
+                patient_male_count: 117
+                patient_race_white_count: 194
+                patient_race_black_count: 0
+                patient_race_asian_pi_count: 0
+                patient_race_hispanic_count: 0
+                patient_race_nat_ind_count: 0
+                patient_race_other_count: 0
+                afib_patients_percent: 7
+                alzrdsd_patients_percent: 6
+                asthma_patients_percent: 6
+                beneficiary_cc_schiot_percent: 0
+                cancer_patients_percent: 8
+                chf_patients_percent: 21
+                ckd_patients_percent: 29
+                copd_patients_percent: 14
+                depression_patients_percent: 17
+                diabetes_patients_percent: 42
+                hld_patients_percent: 54
+                htn_patients_percent: 70
+                ihd_patients_percent: 44
+                osteo_percent: 5
+                raoa_patients_percent: 22
+                stroke_patients_percent: 5
+                top_five_drugs_prescribed: ''
+              - '...': 
+              - '...': 
+              - '...': 
+              meta:
+                pagination:
+                  total: 246224
+                  count: 12
+                  per_page: 12
+                  current_page: 10
+                  total_pages: 20519
+                  links:
+                    previous: https://medikly.appspot.com/diabetes?page=9
+                    next: https://medikly.appspot.com/diabetes?page=11
+          headers: {}
+        429:
           description: Quota Exceeded.
-      x-google-quota:
-        metricCosts:
-          read-requests: 1
+          schema: {}
   /pah:
     get:
-      description: "The Pulmonary Arterial Hypertension API provides granular information
-        on specific providers who manage Pulmonary Arterial Hypertension.  The API
-        enriches your data on a provider with professional, demographic and behaviors
-        information thats defined by the providers NPI (national provider identifier).
-        \  \n\n"
-      summary: Get Pulmonary Arterial Hypertension
+      description: >+
+        Access granular information on specific providers who manage  Pulmonary Arterial Hypertension.  The API enriches your data on a provider with a variety of attributes, such as professional, demographic and behavioral information.
+
+      summary: get_pah
       tags:
       - Disease State API
-      operationId: get_pah
+      operationId: PahGet
       deprecated: false
       produces:
-        - application/json
-      security:
-        - api_token: []
+      - application/json
       parameters:
-        - name: page
-          in: query
-          type: integer
-          format: int32
-          description: "Number of page"
+      - name: page
+        in: query
+        required: false
+        type: integer
+        format: int32
+        description: Number of page
       responses:
-        '200':
-          description: A match has been found and a provider summary object will be
-            returned. If any Disease States have been enabled and data are available,
-            those Disease States will be returned in the details property of the provider
-            summary object.
-          headers: {}
+        200:
+          description: The request was successful.
           schema:
-            $ref: '#/definitions/disease_state'
-        '429':
-          description: "Quota Exceeded."
-      x-google-quota:
-        metricCosts:
-          read-requests: 1
+            $ref: '#/definitions/DiseaseState'
+          examples:
+            application/json:
+              data:
+              - npi: 1003038167
+                replacement_npi: ''
+                update_date: 28/10/2008
+                deactation_date: ''
+                ein: ''
+                org_name_lbn: ''
+                last_name: GOLDEN
+                first_name: KIMBERLY
+                middle_name: KAY
+                credentials: M.D.
+                prefix: DR.
+                suffix: ''
+                gender: F
+                entity_type: 1
+                mail_street1: 917 REAVES ST
+                mail_street2: ''
+                mail_city: JACKSON
+                mail_state: MS
+                mail_zipcode: 71665
+                mail_country: US
+                practice_street1: 505 SYCAMORE STREET
+                practice_street2: ''
+                practice_city: RISON
+                practice_state: AR
+                practice_zipcode: 71665
+                practice_country: US
+                in_group: ''
+                in_pecos: Y
+                is_org_subpart: ''
+                is_sole_proprietor: N
+                parent_org_tin: ''
+                auth_official_firstname: ''
+                auth_official_lastname: ''
+                auth_official_credential: ''
+                auth_official_middlename: ''
+                auth_official_prefix: ''
+                auth_official_suffix: ''
+                auth_official_title: ''
+                pac_id: 3577613439
+                primary_specialty: FAMILY MEDICINE
+                years_of_exp: 18
+                grad_year: 2001
+                means_of_cert: ''
+                millions_hearts_init: ''
+                rx_count: 6362
+                rx_quartile: 1
+                30dayrxfill: 9752
+                rx_cost: 325747.10
+                rxdaysupply: 272309
+                patient_count: 289
+                brand_rx_count: 878
+                brand_rx_cost: 238647.84
+                brand_rx_cost_quartile: 1
+                generic_rx_count: 5372
+                generic_rx_cost: 83046.94
+                generic_rx_cost_quartile: 1
+                other_rx_count: 112
+                other_rx_cost: 4052.32
+                mapd_rx_count: 2375
+                mapd_rx_cost: 158322.86
+                pdp_rx_count: 3987
+                pdp_rx_cost: 167424.24
+                opioid_rx_cost: 503.53
+                opioid_rx_cost_quartile: 1
+                opioid_rx_count: 120
+                opioid_day_supply: 1235
+                opioid_patient_count: 44
+                opioid_prescriber_rate: 1.89
+                la_opioid_rx_count: 0
+                la_opioid_rx_cost: 0.00
+                la_opioid_day_supply: 0
+                la_opioid_patient_count: 0
+                la_opioid_prescriber_rate: 0.00
+                antibiotic_rx_count: 270
+                antibiotic_rx_cost: 2969.94
+                antibiotic_patient_count: 141
+                avg_age_of_patient: 67
+                patient_female_count: 172
+                patient_male_count: 117
+                patient_race_white_count: 194
+                patient_race_black_count: 0
+                patient_race_asian_pi_count: 0
+                patient_race_hispanic_count: 0
+                patient_race_nat_ind_count: 0
+                patient_race_other_count: 0
+                afib_patients_percent: 7
+                alzrdsd_patients_percent: 6
+                asthma_patients_percent: 6
+                beneficiary_cc_schiot_percent: 0
+                cancer_patients_percent: 8
+                chf_patients_percent: 21
+                ckd_patients_percent: 29
+                copd_patients_percent: 14
+                depression_patients_percent: 17
+                diabetes_patients_percent: 42
+                hld_patients_percent: 54
+                htn_patients_percent: 70
+                ihd_patients_percent: 44
+                osteo_percent: 5
+                raoa_patients_percent: 22
+                stroke_patients_percent: 5
+                top_five_drugs_prescribed: ''
+              - '...': 
+              - '...': 
+              - '...': 
+              meta:
+                pagination:
+                  total: 246224
+                  count: 12
+                  per_page: 12
+                  current_page: 10
+                  total_pages: 20519
+                  links:
+                    previous: https://medikly.appspot.com/diabetes?page=9
+                    next: https://medikly.appspot.com/diabetes?page=11
+          headers: {}
+        429:
+          description: Quota Exceeded.
+          schema: {}
   /multiple_sclerosis:
     get:
-      description: "The Multiple Sclerosis API provides granular information on specific
-        providers who manage Multiple Sclerosis.  The API enriches your data on a
-        provider with professional, demographic and behaviors information thats defined
-        by the providers NPI (national provider identifier).   \n\n"
-      summary: Get Multiple Sclerosis
+      description: >
+        Access granular information on specific providers who manage Multiple Sclerosis.  The API enriches your data on a provider with a variety of attributes, such as professional, demographic and behavioral information.
+      summary: get_multiple_sclerosis
       tags:
       - Disease State API
-      operationId: get_multiple_sclerosis
+      operationId: MultipleSclerosisGet
       deprecated: false
       produces:
-        - application/json
-      security:
-        - api_token: []
+      - application/json
       parameters:
-        - name: page
-          in: query
-          type: integer
-          format: int32
-          description: "Number of page"
+      - name: page
+        in: query
+        required: false
+        type: integer
+        format: int32
+        description: Number of page
       responses:
-        '200':
-          description: A match has been found and a provider summary object will be
-            returned. If any Disease States have been enabled and data are available,
-            those Disease States will be returned in the details property of the provider
-            summary object.
-          headers: {}
+        200:
+          description: The request was successful.
           schema:
-            $ref: '#/definitions/disease_state'
-        '429':
-          description: "Quota Exceeded."
-      x-google-quota:
-        metricCosts:
-          read-requests: 1
-  /cardiovascular:
-    get:
-      description: 'The Cardiovascular API provides granular information on all cardiovascular
-        providers.  The API enriches your data on a provider with professional, demographic
-        and behaviors information thats defined by the providers NPI (national provider
-        identifier).  '
-      summary: Get Cardiovascular
-      tags:
-        - Provider Specialty API
-      operationId: get_cardiovascular
-      deprecated: false
-      produces:
-        - application/json
-      security:
-        - api_token: []
-      parameters:
-        - name: page
-          in: query
-          type: integer
-          format: int32
-          description: "Number of page"
-      responses:
-        '200':
-          description: A match has been found and a provider summary object will be
-            returned. If any Disease States have been enabled and data are available,
-            those Disease States will be returned in the details property of the provider
-            summary object.
+            $ref: '#/definitions/DiseaseState'
+          examples:
+            application/json:
+              data:
+              - npi: 1003038167
+                replacement_npi: ''
+                update_date: 28/10/2008
+                deactation_date: ''
+                ein: ''
+                org_name_lbn: ''
+                last_name: GOLDEN
+                first_name: KIMBERLY
+                middle_name: KAY
+                credentials: M.D.
+                prefix: DR.
+                suffix: ''
+                gender: F
+                entity_type: 1
+                mail_street1: 917 REAVES ST
+                mail_street2: ''
+                mail_city: JACKSON
+                mail_state: MS
+                mail_zipcode: 71665
+                mail_country: US
+                practice_street1: 505 SYCAMORE STREET
+                practice_street2: ''
+                practice_city: RISON
+                practice_state: AR
+                practice_zipcode: 71665
+                practice_country: US
+                in_group: ''
+                in_pecos: Y
+                is_org_subpart: ''
+                is_sole_proprietor: N
+                parent_org_tin: ''
+                auth_official_firstname: ''
+                auth_official_lastname: ''
+                auth_official_credential: ''
+                auth_official_middlename: ''
+                auth_official_prefix: ''
+                auth_official_suffix: ''
+                auth_official_title: ''
+                pac_id: 3577613439
+                primary_specialty: FAMILY MEDICINE
+                years_of_exp: 18
+                grad_year: 2001
+                means_of_cert: ''
+                millions_hearts_init: ''
+                rx_count: 6362
+                rx_quartile: 1
+                30dayrxfill: 9752
+                rx_cost: 325747.10
+                rxdaysupply: 272309
+                patient_count: 289
+                brand_rx_count: 878
+                brand_rx_cost: 238647.84
+                brand_rx_cost_quartile: 1
+                generic_rx_count: 5372
+                generic_rx_cost: 83046.94
+                generic_rx_cost_quartile: 1
+                other_rx_count: 112
+                other_rx_cost: 4052.32
+                mapd_rx_count: 2375
+                mapd_rx_cost: 158322.86
+                pdp_rx_count: 3987
+                pdp_rx_cost: 167424.24
+                opioid_rx_cost: 503.53
+                opioid_rx_cost_quartile: 1
+                opioid_rx_count: 120
+                opioid_day_supply: 1235
+                opioid_patient_count: 44
+                opioid_prescriber_rate: 1.89
+                la_opioid_rx_count: 0
+                la_opioid_rx_cost: 0.00
+                la_opioid_day_supply: 0
+                la_opioid_patient_count: 0
+                la_opioid_prescriber_rate: 0.00
+                antibiotic_rx_count: 270
+                antibiotic_rx_cost: 2969.94
+                antibiotic_patient_count: 141
+                avg_age_of_patient: 67
+                patient_female_count: 172
+                patient_male_count: 117
+                patient_race_white_count: 194
+                patient_race_black_count: 0
+                patient_race_asian_pi_count: 0
+                patient_race_hispanic_count: 0
+                patient_race_nat_ind_count: 0
+                patient_race_other_count: 0
+                afib_patients_percent: 7
+                alzrdsd_patients_percent: 6
+                asthma_patients_percent: 6
+                beneficiary_cc_schiot_percent: 0
+                cancer_patients_percent: 8
+                chf_patients_percent: 21
+                ckd_patients_percent: 29
+                copd_patients_percent: 14
+                depression_patients_percent: 17
+                diabetes_patients_percent: 42
+                hld_patients_percent: 54
+                htn_patients_percent: 70
+                ihd_patients_percent: 44
+                osteo_percent: 5
+                raoa_patients_percent: 22
+                stroke_patients_percent: 5
+                top_five_drugs_prescribed: ''
+              - '...': 
+              - '...': 
+              - '...': 
+              meta:
+                pagination:
+                  total: 246224
+                  count: 12
+                  per_page: 12
+                  current_page: 10
+                  total_pages: 20519
+                  links:
+                    previous: https://medikly.appspot.com/diabetes?page=9
+                    next: https://medikly.appspot.com/diabetes?page=11
           headers: {}
-          schema:
-            $ref: '#/definitions/disease_state'
-        '429':
-          description: "Quota Exceeded."
-      x-google-quota:
-        metricCosts:
-          read-requests: 1
+        429:
+          description: Quota Exceeded.
+          schema: {}
   /rheumatology:
     get:
-      description: 'The Rheumatology API provides granular information on Rheumatologists.  The
-        API enriches your data on a provider with professional, demographic and behaviors
-        information thats defined by the providers NPI (national provider identifier).'
-      summary: Get Rheumatology
+      description: >+
+        Access granular information on providers who specialize in Rheumatology.  The API enriches your data on a provider with a variety of attributes, such as professional, demographic and behavioral information.
+
+      summary: get_rheumatology
       tags:
-        - Provider Specialty API
-      operationId: get_rheumatology
+      - Provider Specialty API
+      operationId: RheumatologyGet
       deprecated: false
       produces:
-        - application/json
-      security:
-        - api_token: []
+      - application/json
       parameters:
-        - name: page
-          in: query
-          type: integer
-          format: int32
-          description: "Number of page"
+      - name: page
+        in: query
+        required: false
+        type: integer
+        format: int32
+        description: ''
       responses:
-        '200':
-          description: "Disease State's response description"
-          headers: {}
+        200:
+          description: The request was successful.
           schema:
-            $ref: '#/definitions/disease_state'
-        '429':
-          description: "Quota Exceeded."
-      x-google-quota:
-        metricCosts:
-          read-requests: 1
+            $ref: '#/definitions/DiseaseState'
+          examples:
+            application/json:
+              data:
+              - npi: 1003038167
+                replacement_npi: ''
+                update_date: 28/10/2008
+                deactation_date: ''
+                ein: ''
+                org_name_lbn: ''
+                last_name: GOLDEN
+                first_name: KIMBERLY
+                middle_name: KAY
+                credentials: M.D.
+                prefix: DR.
+                suffix: ''
+                gender: F
+                entity_type: 1
+                mail_street1: 917 REAVES ST
+                mail_street2: ''
+                mail_city: JACKSON
+                mail_state: MS
+                mail_zipcode: 71665
+                mail_country: US
+                practice_street1: 505 SYCAMORE STREET
+                practice_street2: ''
+                practice_city: RISON
+                practice_state: AR
+                practice_zipcode: 71665
+                practice_country: US
+                in_group: ''
+                in_pecos: Y
+                is_org_subpart: ''
+                is_sole_proprietor: N
+                parent_org_tin: ''
+                auth_official_firstname: ''
+                auth_official_lastname: ''
+                auth_official_credential: ''
+                auth_official_middlename: ''
+                auth_official_prefix: ''
+                auth_official_suffix: ''
+                auth_official_title: ''
+                pac_id: 3577613439
+                primary_specialty: FAMILY MEDICINE
+                years_of_exp: 18
+                grad_year: 2001
+                means_of_cert: ''
+                millions_hearts_init: ''
+                rx_count: 6362
+                rx_quartile: 1
+                30dayrxfill: 9752
+                rx_cost: 325747.10
+                rxdaysupply: 272309
+                patient_count: 289
+                brand_rx_count: 878
+                brand_rx_cost: 238647.84
+                brand_rx_cost_quartile: 1
+                generic_rx_count: 5372
+                generic_rx_cost: 83046.94
+                generic_rx_cost_quartile: 1
+                other_rx_count: 112
+                other_rx_cost: 4052.32
+                mapd_rx_count: 2375
+                mapd_rx_cost: 158322.86
+                pdp_rx_count: 3987
+                pdp_rx_cost: 167424.24
+                opioid_rx_cost: 503.53
+                opioid_rx_cost_quartile: 1
+                opioid_rx_count: 120
+                opioid_day_supply: 1235
+                opioid_patient_count: 44
+                opioid_prescriber_rate: 1.89
+                la_opioid_rx_count: 0
+                la_opioid_rx_cost: 0.00
+                la_opioid_day_supply: 0
+                la_opioid_patient_count: 0
+                la_opioid_prescriber_rate: 0.00
+                antibiotic_rx_count: 270
+                antibiotic_rx_cost: 2969.94
+                antibiotic_patient_count: 141
+                avg_age_of_patient: 67
+                patient_female_count: 172
+                patient_male_count: 117
+                patient_race_white_count: 194
+                patient_race_black_count: 0
+                patient_race_asian_pi_count: 0
+                patient_race_hispanic_count: 0
+                patient_race_nat_ind_count: 0
+                patient_race_other_count: 0
+                afib_patients_percent: 7
+                alzrdsd_patients_percent: 6
+                asthma_patients_percent: 6
+                beneficiary_cc_schiot_percent: 0
+                cancer_patients_percent: 8
+                chf_patients_percent: 21
+                ckd_patients_percent: 29
+                copd_patients_percent: 14
+                depression_patients_percent: 17
+                diabetes_patients_percent: 42
+                hld_patients_percent: 54
+                htn_patients_percent: 70
+                ihd_patients_percent: 44
+                osteo_percent: 5
+                raoa_patients_percent: 22
+                stroke_patients_percent: 5
+                top_five_drugs_prescribed: ''
+              - '...': 
+              - '...': 
+              - '...': 
+              meta:
+                pagination:
+                  total: 246224
+                  count: 12
+                  per_page: 12
+                  current_page: 10
+                  total_pages: 20519
+                  links:
+                    previous: https://medikly.appspot.com/diabetes?page=9
+                    next: https://medikly.appspot.com/diabetes?page=11
+          headers: {}
+        429:
+          description: Quota Exceeded.
+          schema: {}
+  /cardiovascular:
+    get:
+      description: Access granular information on providers who specialize in cardiology. The API enriches your data on a provider with a variety of attributes, such as professional, demographic and behavioral information.
+      summary: get_cardiovascular
+      tags:
+      - Provider Specialty API
+      operationId: CardiovascularGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: query
+        required: false
+        type: integer
+        format: int32
+        description: ''
+      responses:
+        200:
+          description: The request was successful.
+          schema:
+            $ref: '#/definitions/DiseaseState'
+          examples:
+            application/json:
+              data:
+              - npi: 1003038167
+                replacement_npi: ''
+                update_date: 28/10/2008
+                deactation_date: ''
+                ein: ''
+                org_name_lbn: ''
+                last_name: GOLDEN
+                first_name: KIMBERLY
+                middle_name: KAY
+                credentials: M.D.
+                prefix: DR.
+                suffix: ''
+                gender: F
+                entity_type: 1
+                mail_street1: 917 REAVES ST
+                mail_street2: ''
+                mail_city: JACKSON
+                mail_state: MS
+                mail_zipcode: 71665
+                mail_country: US
+                practice_street1: 505 SYCAMORE STREET
+                practice_street2: ''
+                practice_city: RISON
+                practice_state: AR
+                practice_zipcode: 71665
+                practice_country: US
+                in_group: ''
+                in_pecos: Y
+                is_org_subpart: ''
+                is_sole_proprietor: N
+                parent_org_tin: ''
+                auth_official_firstname: ''
+                auth_official_lastname: ''
+                auth_official_credential: ''
+                auth_official_middlename: ''
+                auth_official_prefix: ''
+                auth_official_suffix: ''
+                auth_official_title: ''
+                pac_id: 3577613439
+                primary_specialty: FAMILY MEDICINE
+                years_of_exp: 18
+                grad_year: 2001
+                means_of_cert: ''
+                millions_hearts_init: ''
+                rx_count: 6362
+                rx_quartile: 1
+                30dayrxfill: 9752
+                rx_cost: 325747.10
+                rxdaysupply: 272309
+                patient_count: 289
+                brand_rx_count: 878
+                brand_rx_cost: 238647.84
+                brand_rx_cost_quartile: 1
+                generic_rx_count: 5372
+                generic_rx_cost: 83046.94
+                generic_rx_cost_quartile: 1
+                other_rx_count: 112
+                other_rx_cost: 4052.32
+                mapd_rx_count: 2375
+                mapd_rx_cost: 158322.86
+                pdp_rx_count: 3987
+                pdp_rx_cost: 167424.24
+                opioid_rx_cost: 503.53
+                opioid_rx_cost_quartile: 1
+                opioid_rx_count: 120
+                opioid_day_supply: 1235
+                opioid_patient_count: 44
+                opioid_prescriber_rate: 1.89
+                la_opioid_rx_count: 0
+                la_opioid_rx_cost: 0.00
+                la_opioid_day_supply: 0
+                la_opioid_patient_count: 0
+                la_opioid_prescriber_rate: 0.00
+                antibiotic_rx_count: 270
+                antibiotic_rx_cost: 2969.94
+                antibiotic_patient_count: 141
+                avg_age_of_patient: 67
+                patient_female_count: 172
+                patient_male_count: 117
+                patient_race_white_count: 194
+                patient_race_black_count: 0
+                patient_race_asian_pi_count: 0
+                patient_race_hispanic_count: 0
+                patient_race_nat_ind_count: 0
+                patient_race_other_count: 0
+                afib_patients_percent: 7
+                alzrdsd_patients_percent: 6
+                asthma_patients_percent: 6
+                beneficiary_cc_schiot_percent: 0
+                cancer_patients_percent: 8
+                chf_patients_percent: 21
+                ckd_patients_percent: 29
+                copd_patients_percent: 14
+                depression_patients_percent: 17
+                diabetes_patients_percent: 42
+                hld_patients_percent: 54
+                htn_patients_percent: 70
+                ihd_patients_percent: 44
+                osteo_percent: 5
+                raoa_patients_percent: 22
+                stroke_patients_percent: 5
+                top_five_drugs_prescribed: ''
+              - '...': 
+              - '...': 
+              - '...': 
+              meta:
+                pagination:
+                  total: 246224
+                  count: 12
+                  per_page: 12
+                  current_page: 10
+                  total_pages: 20519
+                  links:
+                    previous: https://medikly.appspot.com/diabetes?page=9
+                    next: https://medikly.appspot.com/diabetes?page=11
+          headers: {}
+        429:
+          description: Quota Exceeded.
+          schema: {}
+  /status:
+    get:
+      description: >-
+        # Status
+
+
+        We provide comprehensive status information about the health of our API to ensure you have the context you need to debug issues and better serve your users.
+
+
+        ## System status
+
+        Available at status.medikly.com, Medikly system status reports uptime and incidents for Enrich API endpoints.
+
+
+        ### VIA THE API
+
+        To programmatically receive status information to support internal tools and analytics infrastructure, see institution status and Item status.
+      summary: get_status
+      tags:
+      - Misc
+      operationId: StatusGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: Status's response description
+          schema:
+            $ref: '#/definitions/status'
+          headers: {}
+        429:
+          description: Quota Exceeded.
+          schema: {}
 definitions:
   status:
     title: status
+    example:
+      status: ok
     type: object
     properties:
       status:
         type: string
-    example:
-      status: 'ok'
-  disease_state:
-    title: Disease State
-    type: object
-    properties:
-      npi:
-        type: string
-        example: '1003000217'
-        description: "Relational key, a 10-position all-numeric identification number
-          assigned by the NPS to uniquely identify a health care provider.\n\n"
-      replacement_npi:
-        type: string
-        description: Not currently populated.
-        example: '1003000217'
-      update_date:
-        type: string
-        example: '2007-08-31'
-        description: Date this provider NPI record was last updated.
-      deactation_date:
-        type: string
-        description: Not populated.
-      ein:
-        type: string
-        description: Not currently populated. CMS is not yet providing tax numbers
-          of this type.
-      org_name_lbn:
-        type: string
-        description: Provider organization name legal business name.
-        example: Johns Hopkins School of Medicine
-      last_name:
-        type: string
-        description: The last name of the provider (if an individual). If the provider
-          is an individual, this is the legal name.
-        example: Smith
-      first_name:
-        type: string
-        description: The first name of the provider, if the provider is an individual.
-        example: 'John '
-      middle_name:
-        type: string
-        example: Robert
-        description: The middle name of the provider, if the provider is an individual.
-      credentials:
-        type: string
-        description: The abbreviations for professional degrees or credentials used
-          or held by the provider, if the provider is an individual. Examples are
-          MD, DDS, CSW, CNA, AA, NP, RNA, or PSY. These credential designations are
-          not verified by NPPES.
-        example: MD, DDS, CSW, CNA, AA, NP, RNA
-      prefix:
-        type: string
-        description: The name prefix or salutation of the provider if the provider
-          is an individual; for example, Mr., Mrs., or Corporal.
-        example: Mr., Mrs., or Corporal
-      suffix:
-        type: string
-        description: The name suffix of the provider if the provider is an individual.
-          The name suffix is a ''generation-related'' suffix, such as Jr., Sr., II,
-          III, IV, or V.
-        example: Jr., Sr., II, III, IV, or V.
-      gender:
-        type: string
-        description: M or F for Type 1 providers.
-        example: M, F
-      entity_type:
-        type: string
-        description: Type 1 indicates an individual provider (i.e., physician, psychologist,
-          etc.); Type 2 indicates an organizational provider (i.e., hospital, lab,
-          pharmacy, etc.).
-        example: 1, 2
-      mail_street1:
-        type: string
-        description: The first line mailing address of the provider being identified.
-        example: 96 PROSPECT STREET
-      mail_street2:
-        type: string
-        description: The second line mailing address of the provider being identified.
-        example: SUITE 9A
-      mail_city:
-        type: string
-        description: The city name in the mailing address of the provider being identified
-        example: BROOKLYN
-      mail_state:
-        type: string
-        description: The state or province name in the mailing address of the provider
-          being identified.
-        example: NY
-      mail_zipcode:
-        type: string
-        description: 'The postal zip or postal code of the mailing address of the
-          providers practice. '
-        example: '10078'
-      mail_country:
-        type: string
-        description: The country code in the mailing address of the provider being
-          identified.
-        example: US
-      practice_street1:
-        type: string
-        description: The first line location address of the provider being identified.
-        example: 750 CENTRAL AVE
-      practice_street2:
-        type: string
-        example: SUITE B
-        description: The second line location address of the provider being identified.
-      practice_city:
-        type: string
-        description: The city name in the location address of the provider being identified.
-        example: NEW YORK
-      practice_state:
-        type: string
-        example: NY
-        description: The State or Province name in the location address of the provider
-          being identified.
-      practice_zipcode:
-        type: string
-        description: The postal ZIP or zone code in the location address of the provider
-          being identified.
-        example: '10017'
-      practice_country:
-        type: string
-        description: The country code in the location address of the provider being
-          identified.
-      in_group:
-        type: string
-        description: From NPPES group taxonomy data.  Y= this provider reported that
-          it operates as either a multi-specialty group or single-specialty group.
-        example: Y
-      in_pecos:
-        type: string
-        description: Y = Physicians and non-physician practitioners who are of a type/specialty
-          that is legally eligible to order and refer in the Medicare program and
-          who have current enrollment records in Medicare (i.e., they have enrollment
-          records in PECOS)
-        example: Y
-      is_org_subpart:
-        type: string
-        description: For Type 2 providers, may be one of several organizational units,
-          each with its own NPI number. Y = provider is a subpart. No = not a subpart.
-          X = question not answered
-        example: Y
-      is_sole_proprietor:
-        type: string
-        description: Y = provider operates as a sole proprietor. No = not a sole proprietorship.
-          X = question not answered by provider.
-        example: Y
-      parent_org_tin:
-        type: string
-        description: For Type 2 providers, may be one of several organizational units,
-          each with its own NPI number. Y = provider is a subpart. No = not a subpart.
-          X = question not answered
-      auth_official_firstname:
-        type: string
-        description: The first name of the authorized official.
-        example: ISRAEL
-      auth_official_lastname:
-        type: string
-        example: RODRIGUEZ
-        description: 'The last name of the person authorized to submit the NPI application
-          or to change NPS data for a health care provider.
+  DiseaseState:
+    title: DiseaseState
+    description: >-
+      # Reference Model
 
-'
-      auth_official_credential:
-        type: string
-        description: The credentials of the authorized official authorized to submit
-          the NPI application or to change NPS data for a health care provider.
-        example: MD, PhD,
-      auth_official_middlename:
-        type: string
-        description: The middle name of the authorized official.
-        example: N.
-      auth_official_prefix:
-        type: string
-        description: 'The name prefix or salutation of the authorized official; for
-          example, Mr., Mrs., or Corporal.
 
-'
-        example: Mr., Mrs., or Corporal
-      auth_official_suffix:
-        type: string
-        description: 'The name suffix of the provider if the provider is an individual.
-          The name suffix is a ''''generation-related'''' suffix, such as Jr., Sr.,
-          II, III, IV, or V.
+      A Disease State object looks as follows. The data returned includes a list of attributes and behaviors that have been attributed to the provider, along with the level of prescriptions and procedures and practice info for the given disease state.  No attributes are guaranteed to be present, and if we can’t find data on a specific behavior or attribute, then we’ll return a null value for that attribute.
 
-'
-        example: Jr., Sr., II, III, IV, or V
-      auth_official_title:
-        type: string
-        description: The title or position of the authorized official
-        example: OFFICE MANAGER
-      pac_id:
-        type: string
-        description: 'A relational key that links to group practice affiliations through
-          the “ext_group_prof” table.  Individual''s unique PAC ID. '
-      primary_specialty:
-        type: string
-        description: Primary medical specialty self-reported by the individual provider
-          to NPPES.
-        example: Cardiology
-      years_of_exp:
-        type: string
-        description: The number of years a provider has been in practice.
-        example: '15'
-      grad_year:
-        type: string
-        description: Provider's medical school graduation year.
-        example: '1974'
-      means_of_cert:
-        type: string
-      millions_hearts_init:
-        type: string
-      rx_count:
-        type: string
-        description: |-
-          Total prescription volume of prescribed drugs by a provider, including refills. A drug is classified as “brand”
-          using the Food and Drug Administration (FDA) approval category of New Drug Application (NDA), NDA
-          authorized generic, or Biologic License Application (BLA).
-        example: '439'
-      rx_quartile:
-        type: string
-        description: 'All providers divided into 4 groups based on their prescription
-          costs/spend. Quartile 1 will represent the top 25% of providers based on
-          prescription sales, quartile 2 will represent the next set of 25% providers
-          based on prescription sales, and so forth. '
-        example: 1,2,3 or 4
-      30dayrxfill:
-        type: string
-        description: The aggregate number of  standardized 30-day fills. The standardized
-          30-day fill is derived from the number of days supplied on each prescription
-          divided by 30. Standardized 30-day fill values less than 1.0 were bottom-coded
-          with a value of 1.0 and standardized 30- day fill values greater than 12.0
-          were top-coded with a value of 12.0.
-        example: '219'
-      rx_cost:
-        type: string
-        description: The aggregate drug cost paid for all associated prescriptions.
-          This amount includes ingredient cost, dispensing fee, sales tax, and any
-          applicable vaccine administration fees and is based on the amounts paid
-          by the patient, government subsidies, and any other third-party payers.
-        example: '4119.23'
-      rxdaysupply:
-        type: string
-        description: The aggregate number of day’s supply for which this drug was
-          dispensed.
-        example: '595'
-      patient_count:
-        type: string
-        description: The total number of unique patients with at least one prescription
-          for the drug. Counts fewer than 11 are suppressed and are indicated by a
-          blank.
-        example: '471'
-      brand_rx_count:
-        type: string
-        description: "Total prescription volume of brand-name drugs prescribed by
-          a provider, including refills. A drug is classified as “brand”\nusing the
-          Food and Drug Administration (FDA) approval category of New Drug Application
-          (NDA), NDA\nauthorized generic, or Biologic License Application (BLA). "
-        example: '4412'
-      brand_rx_cost:
-        type: string
-        description: |-
-          Aggregate drug cost paid for brand-name drugs. This amount includes ingredient
-          cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the
-          amounts paid by the patient, government subsidies, and any other third-party
-          payers.
-        example: '32991.08'
-      brand_rx_cost_quartile:
-        type: string
-        description: 'All providers divided into 4 groups based on their brand name
-          prescription costs/spend. Quartile 1 will represent the top 25% of providers
-          based on prescription sales, quartile 2 will represent the next set of 25%
-          providers based on prescription sales, and so forth. '
-        example: 1,2,3 or 4
-      generic_rx_count:
-        type: string
-        description: |-
-          Total prescription volume of generic drugs prescribed by a provider, including refills. A drug is classified as “generic”
-          using the FDA approval category of Abbreviated New Drug Application (ANDA).
-        example: '11981'
-      generic_rx_cost:
-        type: string
-        description: Aggregate cost paid for generic drugs. This amount includes ingredient
-          cost, dispensing fee, sales tax, and any applicable vaccine administration
-          fees and is based on the amounts paid by the patient, government subsidies,
-          and any other third-party payers.
-        example: '2884134.34'
-      generic_rx_cost_quartile:
-        type: string
-        description: 'All providers divided into 4 groups based on their generic name
-          prescription costs/spend. Quartile 1 will represent the top 25% of providers
-          based on prescription sales, quartile 2 will represent the next set of 25%
-          providers based on prescription sales, and so forth. '
-        example: 1,2,3 or 4
-      other_rx_count:
-        type: string
-        description: 'Total prescription volume of other drugs prescribed by a provider,
-          including refills. A drug is classified as “other” using any FDA approval
-          categories not included in the brand or generic definitions above. '
-        example: '4522'
-      other_rx_cost:
-        type: string
-        description: Aggregate cost paid for all other drugs not classified as brand
-          or generic. This amount includes ingredient cost, dispensing fee, sales
-          tax, and any applicable vaccine administration fees and is based on the
-          amounts paid by the patient, government subsidies, and any other third-party
-          payers.
-        example: '21885.34'
-      mapd_rx_count:
-        type: string
-        description: 'Total prescription volume of  drugs covered by MAPD plans. '
-        example: '1953'
-      mapd_rx_cost:
-        type: string
-        description: Aggregate cost paid for all prescriptions in MAPD plans. This
-          amount includes ingredient cost, dispensing fee, sales tax, and any applicable
-          vaccine administration fees and is based on the amounts paid by the patient,
-          government subsidies, and any other third-party payers.
-        example: '2537453.14'
-      pdp_rx_count:
-        type: string
-        description: Total prescription volume of  drugs covered by PDP plans.
-        example: '34266'
-      pdp_rx_cost:
-        type: string
-        description: Aggregate cost paid for all prescriptions in PDP plans. This
-          amount includes ingredient cost, dispensing fee, sales tax, and any applicable
-          vaccine administration fees and is based on the amounts paid by the patient,
-          government subsidies, and any other third-party payers.
-        example: '445213.72'
-      opioid_rx_cost:
-        type: string
-        description: Aggregate cost paid for all prescriptions in MAPD plans. This
-          amount includes ingredient cost, dispensing fee, sales tax, and any applicable
-          vaccine administration fees and is based on the amounts paid by the patient,
-          government subsidies, and any other third-party payers.
-        example: '559632.16'
-      opioid_rx_cost_quartile:
-        type: string
-        description: 'All providers divided into 4 groups based on their opioid prescription
-          costs/spend. Quartile 1 will represent the top 25% of providers based on
-          prescription sales, quartile 2 will represent the next set of 25% providers
-          based on prescription sales, and so forth. '
-        example: 1,2,3 or 4
-      opioid_rx_count:
-        type: string
-        description: Total prescription volume of  opioid drugs prescribed by a provider,
-          including refills.
-        example: '7615'
-      opioid_day_supply:
-        type: string
-        description: The aggregate number of day’s supply for opioid drugs
-        example: '30'
-      opioid_patient_count:
-        type: string
-        description: 'The total number of unique patients with at least one prescription
-          for an opioid drug. '
-        example: '3453'
-      opioid_prescriber_rate:
-        type: string
-        description: The percent of the total_rx_count represented by the opioid_rx_count.
-        example: '45'
-      la_opioid_rx_count:
-        type: string
-        description: 'Total prescription volume of long acting opioid drugs prescribed
-          by a provider, including refills. '
-        example: '4145'
-      la_opioid_rx_cost:
-        type: string
-        description: Aggregate cost paid for long-acting opioid drugs.  This amount
-          includes ingredient cost, dispensing fee, sales tax, and any applicable
-          vaccine administration fees and is based on the amounts paid by the patient,
-          government subsidies, and any other third-party payers.
-        example: '5789452.51'
-      la_opioid_day_supply:
-        type: string
-        description: The aggregate number of day’s supply for long-acting opioid drugs.
-        example: '30'
-      la_opioid_patient_count:
-        type: string
-        description: 'Total patients who were prescribed long acting opioid drugs. '
-        example: '3199'
-      la_opioid_prescriber_rate:
-        type: string
-        description: 'The percent of the opioid_rx_count represented by the la_opioid_rx_count. '
-        example: '19'
-      antibiotic_rx_count:
-        type: string
-        description: Total prescription volume of antibiotic drugs, including refills.
-        example: '3361'
-      antibiotic_rx_cost:
-        type: string
-        description: Aggregate cost paid for antibiotic drugs.  This amount includes
-          ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration
-          fees and is based on the amounts paid by the patient, government subsidies,
-          and any other third-party payers.
-        example: '453143.33'
-      antibiotic_patient_count:
-        type: string
-        description: 'Total patients who were prescribed antibiotic drugs. '
-        example: '331'
-      avg_age_of_patient:
-        type: string
-        description: Average age of patients  in a providers practice. Patient age
-          is calculated at the end of the calendar year or at the time of death.
-        example: '45'
-      patient_female_count:
-        type: string
-        description: Number of female patients in a providers practice.
-        example: '318'
-      patient_male_count:
-        type: string
-        description: Number of male patients in a providers practice.
-        example: '364'
-      patient_race_white_count:
-        type: string
-        description: Number of non-Hispanic white patients in a providers practice.
-        example: '449'
-      patient_race_black_count:
-        type: string
-        description: Number of non-Hispanic black or African American patients in
-          a providers practice.
-        example: '441'
-      patient_race_asian_pi_count:
-        type: string
-        description: Number of Asian or Pacific Islander patients in a providers practice.
-        example: '71'
-      patient_race_hispanic_count:
-        type: string
-        description: Number of Hispanic patients in a providers practice.
-        example: '71'
-      patient_race_nat_ind_count:
-        type: string
-        description: Number of American Indian or Alaska Native patients in a providers
-          practice.
-        example: '365'
-      patient_race_other_count:
-        type: string
-        description: Number of patients with race not elsewhere classified in a providers
-          practice.
-        example: '119'
-      afib_patients_percent:
-        type: string
-        description: |-
-          Percent of patients meeting the CCW chronic condition algorithm
-          for atrial fibrillation.
-        example: '12'
-      alzrdsd_patients_percent:
-        type: string
-        description: Percent of patients meeting the CCW chronic condition algorithm
-          for Alzheimer’s, related disorders, or dementia.
-        example: '4'
-      asthma_patients_percent:
-        type: string
-        description: Percent of patients meeting the CCW chronic condition algorithm
-          for Asthma.
-        example: '17'
-      beneficiary_cc_schiot_percent:
-        type: string
-        description: |-
-          Percent of patients meeting the CCW chronic condition algorithm
-          for schizophrenia and other psychotic disorders.
-        example: '5'
-      cancer_patients_percent:
-        type: string
-        description: 'Percent of patients meeting the CCW chronic condition algorithms
-          for cancer. Includes breast cancer, colorectal cancer, lung cancer and prostate
-          cancer. '
-      chf_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          congestive heart failure. "
-        example: '19'
-      ckd_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          chronic kidney disease. "
-        example: '12'
-      copd_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          chronic obstructive pulmonary disease. "
-        example: '16'
-      depression_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          depression. "
-        example: '16'
-      diabetes_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          diabetes. "
-        example: '26'
-      hld_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          hyperlipidemia. "
-        example: '23'
-      htn_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          hypertension. "
-        example: '32'
-      ihd_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          depression. "
-        example: '13'
-      osteo_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          osteoporosis. "
-        example: '3'
-      raoa_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          rheumatoid arthritis and osteoarthritis. "
-        example: '12'
-      stroke_patients_percent:
-        type: string
-        description: "Percent of patients meeting the CCW chronic condition algorithm\nfor
-          stroke. "
-        example: '61'
-      top_five_drugs_prescribed:
-        type: string
-        description: The top five drugs prescribed  by prescription cost/spend.
-        example: LIPITOR, PLAVIX, CRESTOR, XARELTO, COZAAR
+      </br>
+
+      </br>
+
+      </br>
     example:
       data:
-        - npi: '1003038167'
-          replacement_npi: ''
-          update_date: 28/10/2008
-          deactation_date: ''
-          ein: ''
-          org_name_lbn: ''
-          last_name: GOLDEN
-          first_name: KIMBERLY
-          middle_name: KAY
-          credentials: M.D.
-          prefix: DR.
-          suffix: ''
-          gender: F
-          entity_type: '1'
-          mail_street1: 917 REAVES ST
-          mail_street2: ''
-          mail_city: JACKSON
-          mail_state: MS
-          mail_zipcode: '71665'
-          mail_country: US
-          practice_street1: 505 SYCAMORE STREET
-          practice_street2: ''
-          practice_city: RISON
-          practice_state: AR
-          practice_zipcode: '71665'
-          practice_country: US
-          in_group: ''
-          in_pecos: 'Y'
-          is_org_subpart: ''
-          is_sole_proprietor: 'N'
-          parent_org_tin: ''
-          auth_official_firstname: ''
-          auth_official_lastname: ''
-          auth_official_credential: ''
-          auth_official_middlename: ''
-          auth_official_prefix: ''
-          auth_official_suffix: ''
-          auth_official_title: ''
-          pac_id: '3577613439'
-          primary_specialty: FAMILY MEDICINE
-          years_of_exp: 18
-          grad_year: 2001
-          means_of_cert: ''
-          millions_hearts_init: ''
-          rx_count: 6362
-          rx_quartile: 1
-          30dayrxfill: 9752
-          rx_cost: '325747.10'
-          rxdaysupply: 272309
-          patient_count: 289
-          brand_rx_count: 878
-          brand_rx_cost: '238647.84'
-          brand_rx_cost_quartile: 1
-          generic_rx_count: 5372
-          generic_rx_cost: '83046.94'
-          generic_rx_cost_quartile: 1
-          other_rx_count: 112
-          other_rx_cost: '4052.32'
-          mapd_rx_count: 2375
-          mapd_rx_cost: '158322.86'
-          pdp_rx_count: 3987
-          pdp_rx_cost: '167424.24'
-          opioid_rx_cost: '503.53'
-          opioid_rx_cost_quartile: 1
-          opioid_rx_count: 120
-          opioid_day_supply: 1235
-          opioid_patient_count: 44
-          opioid_prescriber_rate: '1.89'
-          la_opioid_rx_count: 0
-          la_opioid_rx_cost: '0.00'
-          la_opioid_day_supply: 0
-          la_opioid_patient_count: 0
-          la_opioid_prescriber_rate: '0.00'
-          antibiotic_rx_count: 270
-          antibiotic_rx_cost: '2969.94'
-          antibiotic_patient_count: 141
-          avg_age_of_patient: 67
-          patient_female_count: 172
-          patient_male_count: 117
-          patient_race_white_count: 194
-          patient_race_black_count: 0
-          patient_race_asian_pi_count: 0
-          patient_race_hispanic_count: 0
-          patient_race_nat_ind_count: 0
-          patient_race_other_count: 0
-          afib_patients_percent: 7
-          alzrdsd_patients_percent: 6
-          asthma_patients_percent: 6
-          beneficiary_cc_schiot_percent: 0
-          cancer_patients_percent: 8
-          chf_patients_percent: 21
-          ckd_patients_percent: 29
-          copd_patients_percent: 14
-          depression_patients_percent: 17
-          diabetes_patients_percent: 42
-          hld_patients_percent: 54
-          htn_patients_percent: 70
-          ihd_patients_percent: 44
-          osteo_percent: 5
-          raoa_patients_percent: 22
-          stroke_patients_percent: 5
-          top_five_drugs_prescribed: ''
-        - ...: null
-        - ...: null
-        - ...: null
+      - npi: 1003038167
+        replacement_npi: ''
+        update_date: 28/10/2008
+        deactation_date: ''
+        ein: ''
+        org_name_lbn: ''
+        last_name: GOLDEN
+        first_name: KIMBERLY
+        middle_name: KAY
+        credentials: M.D.
+        prefix: DR.
+        suffix: ''
+        gender: F
+        entity_type: 1
+        mail_street1: 917 REAVES ST
+        mail_street2: ''
+        mail_city: JACKSON
+        mail_state: MS
+        mail_zipcode: 71665
+        mail_country: US
+        practice_street1: 505 SYCAMORE STREET
+        practice_street2: ''
+        practice_city: RISON
+        practice_state: AR
+        practice_zipcode: 71665
+        practice_country: US
+        in_group: ''
+        in_pecos: Y
+        is_org_subpart: ''
+        is_sole_proprietor: N
+        parent_org_tin: ''
+        auth_official_firstname: ''
+        auth_official_lastname: ''
+        auth_official_credential: ''
+        auth_official_middlename: ''
+        auth_official_prefix: ''
+        auth_official_suffix: ''
+        auth_official_title: ''
+        pac_id: 3577613439
+        primary_specialty: FAMILY MEDICINE
+        years_of_exp: 18
+        grad_year: 2001
+        means_of_cert: ''
+        millions_hearts_init: ''
+        rx_count: 6362
+        rx_quartile: 1
+        30dayrxfill: 9752
+        rx_cost: 325747.10
+        rxdaysupply: 272309
+        patient_count: 289
+        brand_rx_count: 878
+        brand_rx_cost: 238647.84
+        brand_rx_cost_quartile: 1
+        generic_rx_count: 5372
+        generic_rx_cost: 83046.94
+        generic_rx_cost_quartile: 1
+        other_rx_count: 112
+        other_rx_cost: 4052.32
+        mapd_rx_count: 2375
+        mapd_rx_cost: 158322.86
+        pdp_rx_count: 3987
+        pdp_rx_cost: 167424.24
+        opioid_rx_cost: 503.53
+        opioid_rx_cost_quartile: 1
+        opioid_rx_count: 120
+        opioid_day_supply: 1235
+        opioid_patient_count: 44
+        opioid_prescriber_rate: 1.89
+        la_opioid_rx_count: 0
+        la_opioid_rx_cost: 0.00
+        la_opioid_day_supply: 0
+        la_opioid_patient_count: 0
+        la_opioid_prescriber_rate: 0.00
+        antibiotic_rx_count: 270
+        antibiotic_rx_cost: 2969.94
+        antibiotic_patient_count: 141
+        avg_age_of_patient: 67
+        patient_female_count: 172
+        patient_male_count: 117
+        patient_race_white_count: 194
+        patient_race_black_count: 0
+        patient_race_asian_pi_count: 0
+        patient_race_hispanic_count: 0
+        patient_race_nat_ind_count: 0
+        patient_race_other_count: 0
+        afib_patients_percent: 7
+        alzrdsd_patients_percent: 6
+        asthma_patients_percent: 6
+        beneficiary_cc_schiot_percent: 0
+        cancer_patients_percent: 8
+        chf_patients_percent: 21
+        ckd_patients_percent: 29
+        copd_patients_percent: 14
+        depression_patients_percent: 17
+        diabetes_patients_percent: 42
+        hld_patients_percent: 54
+        htn_patients_percent: 70
+        ihd_patients_percent: 44
+        osteo_percent: 5
+        raoa_patients_percent: 22
+        stroke_patients_percent: 5
+        top_five_drugs_prescribed: ''
+      - '...': 
+      - '...': 
+      - '...': 
       meta:
         pagination:
           total: 246224
@@ -889,91 +933,479 @@ definitions:
           current_page: 10
           total_pages: 20519
           links:
-            previous: 'https://medikly.appspot.com/diabetes?page=9'
-            next: 'https://medikly.appspot.com/diabetes?page=11'
-      
+            previous: https://medikly.appspot.com/diabetes?page=9
+            next: https://medikly.appspot.com/diabetes?page=11
+    type: object
+    properties:
+      npi:
+        description: Relational key, a 10-position all-numeric identification number assigned by the NPS to uniquely identify a health care provider.
+        example: 1003000217
+        type: string
+      replacement_npi:
+        description: Not currently populated.
+        example: 1003000217
+        type: string
+      update_date:
+        description: Date this provider NPI record was last updated.
+        example: 2007-08-31
+        type: string
+      deactation_date:
+        description: Not populated.
+        type: string
+      ein:
+        description: Not currently populated. CMS is not yet providing tax numbers of this type.
+        type: string
+      org_name_lbn:
+        description: Provider organization name legal business name.
+        example: Johns Hopkins School of Medicine
+        type: string
+      last_name:
+        description: The last name of the provider (if an individual). If the provider is an individual, this is the legal name.
+        example: Smith
+        type: string
+      first_name:
+        description: The first name of the provider, if the provider is an individual.
+        example: 'John '
+        type: string
+      middle_name:
+        description: The middle name of the provider, if the provider is an individual.
+        example: Robert
+        type: string
+      credentials:
+        description: The abbreviations for professional degrees or credentials used or held by the provider, if the provider is an individual. These credential designations are not verified by NPPES.
+        example: MD, DDS, CSW, CNA, AA, NP, RNA
+        type: string
+      prefix:
+        description: The name prefix or salutation of the provider if the provider is an individual.
+        example: Mr., Mrs., or Corporal
+        type: string
+      suffix:
+        description: The name suffix of the provider if the provider is an individual.
+        example: Jr., Sr., II, III, IV, or V.
+        type: string
+      gender:
+        description: M or F for Type 1 providers.
+        example: M
+        type: string
+      entity_type:
+        description: Type 1 indicates an individual provider (i.e., physician, psychologist, etc.); Type 2 indicates an organizational provider (i.e., hospital, lab, pharmacy, etc.).
+        example: 1
+        type: string
+      mail_street1:
+        description: The first line mailing address of the provider being identified.
+        example: 96 PROSPECT STREET
+        type: string
+      mail_street2:
+        description: The second line mailing address of the provider being identified.
+        example: SUITE 9A
+        type: string
+      mail_city:
+        description: The city name in the mailing address of the provider being identified
+        example: BROOKLYN
+        type: string
+      mail_state:
+        description: The state or province name in the mailing address of the provider being identified.
+        example: NY
+        type: string
+      mail_zipcode:
+        description: The postal zip or postal code of the mailing address of the providers practice.
+        example: 10078
+        type: string
+      mail_country:
+        description: The country code in the mailing address of the provider being identified.
+        example: US
+        type: string
+      practice_street1:
+        description: The first line location address of the provider being identified.
+        example: 750 CENTRAL AVE
+        type: string
+      practice_street2:
+        description: The second line location address of the provider being identified.
+        example: SUITE B
+        type: string
+      practice_city:
+        description: The city name in the location address of the provider being identified.
+        example: NEW YORK
+        type: string
+      practice_state:
+        description: The State or Province name in the location address of the provider being identified.
+        example: NY
+        type: string
+      practice_zipcode:
+        description: The postal ZIP or zone code in the location address of the provider being identified.
+        example: 10017
+        type: string
+      practice_country:
+        description: The country code in the location address of the provider being identified.
+        type: string
+      in_group:
+        description: From NPPES group taxonomy data.  Y= this provider reported that it operates as either a multi-specialty group or single-specialty group.
+        example: Y
+        type: string
+      in_pecos:
+        description: Y = Physicians and non-physician practitioners who are of a type/specialty that is legally eligible to order and refer in the Medicare program and who have current enrollment records in Medicare (i.e., they have enrollment records in PECOS)
+        example: Y
+        type: string
+      is_org_subpart:
+        description: For Type 2 providers, may be one of several organizational units, each with its own NPI number. Y = provider is a subpart. No = not a subpart. X = question not answered
+        example: Y
+        type: string
+      is_sole_proprietor:
+        description: Y = provider operates as a sole proprietor. No = not a sole proprietorship. X = question not answered by provider.
+        example: Y
+        type: string
+      parent_org_tin:
+        description: For Type 2 providers, may be one of several organizational units, each with its own NPI number. Y = provider is a subpart. No = not a subpart. X = question not answered
+        type: string
+      auth_official_firstname:
+        description: The first name of the authorized official.
+        example: ISRAEL
+        type: string
+      auth_official_lastname:
+        description: The last name of the person authorized to submit the NPI application or to change NPS data for a health care provider.
+        example: RODRIGUEZ
+        type: string
+      auth_official_credential:
+        description: The credentials of the authorized official authorized to submit the NPI application or to change NPS data for a health care provider.
+        example: MD, PhD,
+        type: string
+      auth_official_middlename:
+        description: The middle name of the authorized official.
+        example: N.
+        type: string
+      auth_official_prefix:
+        description: The name prefix or salutation of the authorized official; for example, Mr., Mrs., or Corporal.
+        example: Mr., Mrs., or Corporal
+        type: string
+      auth_official_suffix:
+        description: The name suffix of the provider if the provider is an individual. The name suffix is a ''generation-related'' suffix, such as Jr., Sr., II, III, IV, or V.
+        example: Jr., Sr., II, III, IV, or V
+        type: string
+      auth_official_title:
+        description: The title or position of the authorized official
+        example: OFFICE MANAGER
+        type: string
+      pac_id:
+        description: A relational key that links to group practice affiliations through the “ext_group_prof” table.  Individual's unique PAC ID.
+        type: string
+      primary_specialty:
+        description: Primary medical specialty self-reported by the individual provider to NPPES.
+        example: Cardiology
+        type: string
+      years_of_exp:
+        description: The number of years a provider has been in practice.
+        example: 15
+        type: string
+      grad_year:
+        description: Provider's medical school graduation year.
+        example: 1974
+        type: string
+      means_of_cert:
+        type: string
+      millions_hearts_init:
+        type: string
+      rx_count:
+        description: >-
+          Total prescription volume of prescribed drugs by a provider, including refills. A drug is classified as “brand”
+
+          using the Food and Drug Administration (FDA) approval category of New Drug Application (NDA), NDA
+
+          authorized generic, or Biologic License Application (BLA).
+        example: 439
+        type: string
+      rx_quartile:
+        description: All providers divided into 4 groups based on their prescription costs/spend. Quartile 1 will represent the top 25% of providers based on prescription sales, quartile 2 will represent the next set of 25% providers based on prescription sales, and so forth.
+        example: 1,2,3 or 4
+        type: string
+      30dayrxfill:
+        description: The aggregate number of  standardized 30-day fills. The standardized 30-day fill is derived from the number of days supplied on each prescription divided by 30. Standardized 30-day fill values less than 1.0 were bottom-coded with a value of 1.0 and standardized 30- day fill values greater than 12.0 were top-coded with a value of 12.0.
+        example: 219
+        type: string
+      rx_cost:
+        description: The aggregate drug cost paid for all associated prescriptions. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 4119.23
+        type: string
+      rxdaysupply:
+        description: The aggregate number of day’s supply for which this drug was dispensed.
+        example: 595
+        type: string
+      patient_count:
+        description: The total number of unique patients with at least one prescription for the drug. Counts fewer than 11 are suppressed and are indicated by a blank.
+        example: 471
+        type: string
+      brand_rx_count:
+        description: >-
+          Total prescription volume of brand-name drugs prescribed by a provider, including refills. A drug is classified as “brand”
+
+          using the Food and Drug Administration (FDA) approval category of New Drug Application (NDA), NDA
+
+          authorized generic, or Biologic License Application (BLA).
+        example: 4412
+        type: string
+      brand_rx_cost:
+        description: >-
+          Aggregate drug cost paid for brand-name drugs. This amount includes ingredient
+
+          cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the
+
+          amounts paid by the patient, government subsidies, and any other third-party
+
+          payers.
+        example: 32991.08
+        type: string
+      brand_rx_cost_quartile:
+        description: All providers divided into 4 groups based on their brand name prescription costs/spend. Quartile 1 will represent the top 25% of providers based on prescription sales, quartile 2 will represent the next set of 25% providers based on prescription sales, and so forth.
+        example: 1,2,3 or 4
+        type: string
+      generic_rx_count:
+        description: >-
+          Total prescription volume of generic drugs prescribed by a provider, including refills. A drug is classified as “generic”
+
+          using the FDA approval category of Abbreviated New Drug Application (ANDA).
+        example: 11981
+        type: string
+      generic_rx_cost:
+        description: Aggregate cost paid for generic drugs. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 2884134.34
+        type: string
+      generic_rx_cost_quartile:
+        description: All providers divided into 4 groups based on their generic name prescription costs/spend. Quartile 1 will represent the top 25% of providers based on prescription sales, quartile 2 will represent the next set of 25% providers based on prescription sales, and so forth.
+        example: 1,2,3 or 4
+        type: string
+      other_rx_count:
+        description: Total prescription volume of other drugs prescribed by a provider, including refills. A drug is classified as “other” using any FDA approval categories not included in the brand or generic definitions above.
+        example: 4522
+        type: string
+      other_rx_cost:
+        description: Aggregate cost paid for all other drugs not classified as brand or generic. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 21885.34
+        type: string
+      mapd_rx_count:
+        description: Total prescription volume of  drugs covered by MAPD plans.
+        example: 1953
+        type: string
+      mapd_rx_cost:
+        description: Aggregate cost paid for all prescriptions in MAPD plans. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 2537453.14
+        type: string
+      pdp_rx_count:
+        description: Total prescription volume of  drugs covered by PDP plans.
+        example: 34266
+        type: string
+      pdp_rx_cost:
+        description: Aggregate cost paid for all prescriptions in PDP plans. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 445213.72
+        type: string
+      opioid_rx_cost:
+        description: Aggregate cost paid for all prescriptions in MAPD plans. This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 559632.16
+        type: string
+      opioid_rx_cost_quartile:
+        description: All providers divided into 4 groups based on their opioid prescription costs/spend. Quartile 1 will represent the top 25% of providers based on prescription sales, quartile 2 will represent the next set of 25% providers based on prescription sales, and so forth.
+        example: 1,2,3 or 4
+        type: string
+      opioid_rx_count:
+        description: Total prescription volume of  opioid drugs prescribed by a provider, including refills.
+        example: 7615
+        type: string
+      opioid_day_supply:
+        description: The aggregate number of day’s supply for opioid drugs
+        example: 30
+        type: string
+      opioid_patient_count:
+        description: The total number of unique patients with at least one prescription for an opioid drug.
+        example: 3453
+        type: string
+      opioid_prescriber_rate:
+        description: The percent of the total_rx_count represented by the opioid_rx_count.
+        example: 45
+        type: string
+      la_opioid_rx_count:
+        description: Total prescription volume of long acting opioid drugs prescribed by a provider, including refills.
+        example: 4145
+        type: string
+      la_opioid_rx_cost:
+        description: Aggregate cost paid for long-acting opioid drugs.  This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 5789452.51
+        type: string
+      la_opioid_day_supply:
+        description: The aggregate number of day’s supply for long-acting opioid drugs.
+        example: 30
+        type: string
+      la_opioid_patient_count:
+        description: Total patients who were prescribed long acting opioid drugs.
+        example: 3199
+        type: string
+      la_opioid_prescriber_rate:
+        description: The percent of the opioid_rx_count represented by the la_opioid_rx_count.
+        example: 19
+        type: string
+      antibiotic_rx_count:
+        description: Total prescription volume of antibiotic drugs, including refills.
+        example: 3361
+        type: string
+      antibiotic_rx_cost:
+        description: Aggregate cost paid for antibiotic drugs.  This amount includes ingredient cost, dispensing fee, sales tax, and any applicable vaccine administration fees and is based on the amounts paid by the patient, government subsidies, and any other third-party payers.
+        example: 453143.33
+        type: string
+      antibiotic_patient_count:
+        description: Total patients who were prescribed antibiotic drugs.
+        example: 331
+        type: string
+      avg_age_of_patient:
+        description: Average age of patients  in a providers practice. Patient age is calculated at the end of the calendar year or at the time of death.
+        example: 45
+        type: string
+      patient_female_count:
+        description: Number of female patients in a providers practice.
+        example: 318
+        type: string
+      patient_male_count:
+        description: Number of male patients in a providers practice.
+        example: 364
+        type: string
+      patient_race_white_count:
+        description: Number of non-Hispanic white patients in a providers practice.
+        example: 449
+        type: string
+      patient_race_black_count:
+        description: Number of non-Hispanic black or African American patients in a providers practice.
+        example: 441
+        type: string
+      patient_race_asian_pi_count:
+        description: Number of Asian or Pacific Islander patients in a providers practice.
+        example: 71
+        type: string
+      patient_race_hispanic_count:
+        description: Number of Hispanic patients in a providers practice.
+        example: 71
+        type: string
+      patient_race_nat_ind_count:
+        description: Number of American Indian or Alaska Native patients in a providers practice.
+        example: 365
+        type: string
+      patient_race_other_count:
+        description: Number of patients with race not elsewhere classified in a providers practice.
+        example: 119
+        type: string
+      afib_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for atrial fibrillation.
+        example: 12
+        type: string
+      alzrdsd_patients_percent:
+        description: Percent of patients meeting the CCW chronic condition algorithm for Alzheimer’s, related disorders, or dementia.
+        example: 4
+        type: string
+      asthma_patients_percent:
+        description: Percent of patients meeting the CCW chronic condition algorithm for Asthma.
+        example: 17
+        type: string
+      beneficiary_cc_schiot_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for schizophrenia and other psychotic disorders.
+        example: 5
+        type: string
+      cancer_patients_percent:
+        description: Percent of patients meeting the CCW chronic condition algorithms for cancer. Includes breast cancer, colorectal cancer, lung cancer and prostate cancer.
+        type: string
+      chf_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for congestive heart failure.
+        example: 19
+        type: string
+      ckd_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for chronic kidney disease.
+        example: 12
+        type: string
+      copd_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for chronic obstructive pulmonary disease.
+        example: 16
+        type: string
+      depression_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for depression.
+        example: 16
+        type: string
+      diabetes_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for diabetes.
+        example: 26
+        type: string
+      hld_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for hyperlipidemia.
+        example: 23
+        type: string
+      htn_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for hypertension.
+        example: 32
+        type: string
+      ihd_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for depression.
+        example: 13
+        type: string
+      osteo_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for osteoporosis.
+        example: 3
+        type: string
+      raoa_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for rheumatoid arthritis and osteoarthritis.
+        example: 12
+        type: string
+      stroke_patients_percent:
+        description: >-
+          Percent of patients meeting the CCW chronic condition algorithm
+
+          for stroke.
+        example: 61
+        type: string
+      top_five_drugs_prescribed:
+        description: The top five drugs prescribed  by prescription cost/spend.
+        example: LIPITOR, PLAVIX, CRESTOR, XARELTO, COZAAR
+        type: string
+security:
+- api_token: []
 tags:
-  - name: Disease State API
-    description: "The Disease State API provides granular information on providers that
-    see and manage patients with a specific condition or disease state.   \n\n\n"
-  - name: Provider Specialty API
-    description: "The Provider Specialty API provides granular information on providers from a specific specialty (ie, Cardiovascular, Pediatrics)."
-security: []
+- name: Disease State API
+  description: "Access granular information on providers that see and manage patients with a specific condition or disease state.   \n\n\n"
+- name: Provider Specialty API
+  description: >+
+    Access granular information on providers from a specific specialty (ie, Cardiovascular, Pediatrics).
+
+
+- name: Misc
+  description: ''
 externalDocs:
-  description: https://www.medikly.com/docs
   url: https://endpointsportal.medikly.cloud.goog/docs/medikly.appspot.com/v1/introduction
-
-responses:
-  200 - OK:
-    description: The request was successful.
-    schema:
-      type: object
-      properties: {}
-  202 - Accepted:
-    description: Your request is currently being processed. You can check again later
-      to see the request has been processed.
-    schema:
-      type: object
-      properties: {}
-  400 - Bad Request:
-    description: Your request was malformed.
-    schema:
-      type: object
-      properties: {}
-  403 - Forbidden:
-    description: Your API key is invalid, missing, or has exceeded its quota. Plans
-      that have overages enabled will not receive a 403 response when they exceed
-      their allotted matches. They will only receive a 403 for exceeding rate limit
-      quotas.
-    schema:
-      type: object
-      properties: {}
-  404 - Not Found:
-    description: The request query was searched in the past 24 hours and nothing was
-      found.
-    schema:
-      type: object
-      properties: {}
-  405 - Method Not Allowed:
-    description: You have queried the API with an unsupported HTTP method. Retry your
-      query with either GET or POST.
-    schema:
-      type: object
-      properties: {}
-  410 - Gone:
-    description: This resource cannot be found. You will receive this status code
-      if you attempt to query our deprecated V1 endpoints.
-    schema:
-      type: object
-      properties: {}
-  422 - Invalid:
-    description: Invalid or missing API query parameter.
-    schema:
-      type: object
-      properties: {}
-  500 - Server Error:
-    description: 'Something is broken on Medikly''s side. If you encounter this, please
-      contact us at apiteam@medikly.com for assistance.
-
-'
-    schema:
-      type: object
-      properties: {}
-  503 - Service Unavailable:
-    description: 'There is a transient downstream error condition. We include a ''Retry-After''
-      header dictating when to attempt the call again.
-
-'
-    schema:
-      type: object
-      properties: {}
-  401 - Unauthorized:
-    description: Your API key is wrong or you are not signing the request correctly.
-    schema:
-      type: object
-      properties: {}
-  429 - Too Many Requests:
-    description: You’re exceeding your API rate limit (see API rate limits)
-    schema:
-      type: object
-      properties: {}  
+  description: https://www.medikly.com/docs
